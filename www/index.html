@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0b0e14">
+<title>Krypto v4.1</title>
+<link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand"><span class="logo">◆</span> Krypto <small>v4.1</small></div>
+  <div class="top-right">
+    <span id="planBadge" class="badge">FREE</span>
+    <span class="bal">Equity: <b id="topEquity">$0</b></span>
+  </div>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button data-view="market" class="active">📊 Market</button>
+  <button data-view="trade">⚡ Live Trading</button>
+  <button data-view="advanced">🧬 Advanced Data</button>
+  <button data-view="analysis">🔍 Analysis</button>
+  <button data-view="watch">⭐ Watchlist</button>
+  <button data-view="portfolio">💼 Portfolio</button>
+  <button data-view="sub">💎 Subscription</button>
+</nav>
+
+<main>
+
+<!-- ================= MARKET ================= -->
+<section id="view-market" class="view active">
+  <div class="grid3" id="movers"></div>
+  <div class="card">
+    <div class="row">
+      <input id="mSearch" class="inp" placeholder="কয়েন সার্চ (BTC, ETH...)">
+      <select id="mSort" class="inp">
+        <option value="q">Volume</option>
+        <option value="chg">Change % (বেশি)</option>
+        <option value="chgAsc">Change % (কম)</option>
+        <option value="p">Price</option>
+      </select>
+    </div>
+    <div class="tablewrap">
+      <table id="mTable">
+        <thead><tr><th></th><th>Pair</th><th class="r">Price</th><th class="r">24h %</th><th class="r hide-m">High</th><th class="r hide-m">Low</th><th class="r hide-m">Volume (USDT)</th></tr></thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ================= TRADE ================= -->
+<section id="view-trade" class="view">
+  <div class="row between wrap">
+    <div class="row">
+      <input id="symInput" class="inp sym" list="symList" value="BTCUSDT">
+      <datalist id="symList"></datalist>
+      <div id="tHead" class="thead"></div>
+    </div>
+    <div class="seg" id="tfSeg"></div>
+  </div>
+  <div class="trade-grid">
+    <div class="card chartcard"><div id="chart"></div></div>
+    <div class="card">
+      <h3>Paper Trading <small class="muted">(ভার্চুয়াল)</small></h3>
+      <div class="seg two" id="sideSeg"><button class="active buy" data-side="BUY">Buy</button><button class="sell" data-side="SELL">Sell</button></div>
+      <div class="seg two" id="typeSeg"><button class="active" data-type="MARKET">Market</button><button data-type="LIMIT">Limit</button></div>
+      <label class="lbl">Price (USDT)</label>
+      <input id="oPrice" class="inp" type="number" step="any" disabled>
+      <label class="lbl">Amount (<span id="baseName">BTC</span>)</label>
+      <input id="oQty" class="inp" type="number" step="any" placeholder="0.00">
+      <div class="seg four" id="pctSeg"><button data-p="25">25%</button><button data-p="50">50%</button><button data-p="75">75%</button><button data-p="100">100%</button></div>
+      <div class="muted small">Available: <b id="avail">-</b></div>
+      <div class="muted small">Total: <b id="oTotal">0</b> USDT · Fee 0.1%</div>
+      <button id="placeBtn" class="btn buy full">Buy</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Open Orders</h3>
+    <div class="tablewrap"><table id="openOrders"><thead><tr><th>Time</th><th>Pair</th><th>Side</th><th class="r">Price</th><th class="r">Qty</th><th></th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- ================= ADVANCED ================= -->
+<section id="view-advanced" class="view">
+  <div class="row between wrap">
+    <h3 id="advTitle">BTCUSDT</h3>
+    <span class="muted small">লাইভ ডেটা: Binance WebSocket</span>
+  </div>
+  <div class="grid4" id="advStats"></div>
+  <div class="grid2">
+    <div class="card"><h3>Order Book</h3><div id="book"></div></div>
+    <div class="card"><h3>Recent Trades</h3><div id="trades"></div></div>
+  </div>
+</section>
+
+<!-- ================= ANALYSIS ================= -->
+<section id="view-analysis" class="view">
+  <div class="row between wrap">
+    <div class="row"><h3 id="anTitle">BTCUSDT</h3></div>
+    <div class="seg" id="anTfSeg"></div>
+  </div>
+  <div class="grid2">
+    <div class="card"><h3>Overall Signal</h3><div id="anSummary"></div></div>
+    <div class="card"><h3>Support / Resistance</h3><div id="anSR"></div></div>
+  </div>
+  <div class="card"><h3>Indicators</h3>
+    <div class="tablewrap"><table id="anTable"><thead><tr><th>Indicator</th><th class="r">Value</th><th class="r">Signal</th></tr></thead><tbody></tbody></table></div>
+    <p class="muted small">⚠️ এটি শুধু টেকনিক্যাল ইন্ডিকেটর ভিত্তিক তথ্য, আর্থিক পরামর্শ নয়।</p>
+  </div>
+</section>
+
+<!-- ================= WATCHLIST ================= -->
+<section id="view-watch" class="view">
+  <div class="card">
+    <div class="row">
+      <input id="wInput" class="inp" list="symList" placeholder="কয়েন যোগ করুন (যেমন SOLUSDT)">
+      <button id="wAdd" class="btn">+ Add</button>
+    </div>
+    <div class="muted small" id="wLimit"></div>
+    <div class="tablewrap"><table id="wTable"><thead><tr><th>Pair</th><th class="r">Price</th><th class="r">24h %</th><th class="r">Alert</th><th></th></tr></thead><tbody></tbody></table></div>
+  </div>
+</section>
+
+<!-- ================= PORTFOLIO ================= -->
+<section id="view-portfolio" class="view">
+  <div class="grid4" id="pfStats"></div>
+  <div class="card"><h3>Holdings</h3>
+    <div class="tablewrap"><table id="pfTable"><thead><tr><th>Asset</th><th class="r">Qty</th><th class="r">Avg</th><th class="r">Price</th><th class="r">Value</th><th class="r">PnL</th></tr></thead><tbody></tbody></table></div>
+  </div>
+  <div class="card"><h3>Allocation</h3><div id="pfAlloc"></div></div>
+  <div class="card"><h3>Trade History</h3>
+    <div class="tablewrap"><table id="histTable"><thead><tr><th>Time</th><th>Pair</th><th>Side</th><th class="r">Price</th><th class="r">Qty</th><th class="r">PnL</th></tr></thead><tbody></tbody></table></div>
+    <button id="resetPf" class="btn danger">Reset Portfolio ($10,000)</button>
+  </div>
+</section>
+
+<!-- ================= SUBSCRIPTION ================= -->
+<section id="view-sub" class="view">
+  <div class="card" id="subStatus"></div>
+  <div class="grid3" id="plans"></div>
+  <div class="card hidden" id="payBox">
+    <h3>পেমেন্ট করুন — <span id="payPlan"></span></h3>
+    <ol class="small">
+      <li>bKash Send Money করুন: <b id="payNumber"></b></li>
+      <li>পরিমাণ: <b id="payAmount"></b></li>
+      <li>নিচে Transaction ID (TrxID) দিন</li>
+    </ol>
+    <div class="row">
+      <input id="trxInput" class="inp" placeholder="TrxID (যেমন 9A1B2C3D4E)">
+      <button id="trxBtn" class="btn">Verify</button>
+    </div>
+    <div class="muted small" id="payMsg"></div>
+  </div>
+</section>
+
+</main>
+
+<div id="toast"></div>
+
+<script src="js/lib/lightweight-charts.js"></script>
+<script src="js/config.js"></script>
+<script src="js/indicators.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+<script>
+if ('serviceWorker' in navigator && location.protocol.startsWith('http')) {
+  navigator.serviceWorker.register('sw.js').catch(()=>{});
+}
+</script>
+</body>
+</html>
