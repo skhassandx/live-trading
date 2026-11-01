@@ -1,0 +1,17 @@
+{
+  "name": "krypto",
+  "version": "4.1.0",
+  "private": true,
+  "description": "Krypto v4.1 — market data, paper trading, analysis, watchlist, portfolio",
+  "scripts": {
+    "serve": "npx http-server www -p 8080 -c-1",
+    "sync": "cap sync android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.2.0",
+    "@capacitor/core": "^6.2.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.2.0"
+  }
+}

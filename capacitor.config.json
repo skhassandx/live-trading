@@ -1,0 +1,7 @@
+{
+  "appId": "com.hassan.krypto",
+  "appName": "Krypto",
+  "webDir": "www",
+  "server": { "androidScheme": "https" },
+  "android": { "allowMixedContent": false }
+}
